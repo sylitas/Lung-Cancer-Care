@@ -279,7 +279,7 @@
                                                 <div class="col col-md-4">
                                                     <label class=" form-control-label">Username</label>
                                                 </div>
-                                                <div class="col-12 col-md-7">
+                                                <div class="col-12 col-md-5">
                                                     <p class="form-control-static"><?php echo $username;?></p>
                                                 </div>
                                             </div>
@@ -287,7 +287,7 @@
                                                 <div class="col col-md-4">
                                                     <label for="text-input" class=" form-control-label">First Name</label>
                                                 </div>
-                                                <div class="col-12 col-md-7">
+                                                <div class="col-12 col-md-5">
                                                     <p class="form-control-static"><?php echo $firstname;?></p>
                                                 </div>
                                             </div>
@@ -295,7 +295,7 @@
                                                 <div class="col col-md-4">
                                                     <label for="text-input" class=" form-control-label">Last Name</label>
                                                 </div>
-                                                <div class="col-12 col-md-7">
+                                                <div class="col-12 col-md-5">
                                                     <p class="form-control-static"><?php echo $lastname;?></p>
                                                 </div>
                                             </div>
@@ -303,7 +303,7 @@
                                                 <div class="col col-md-4">
                                                     <label for="email-input" class=" form-control-label">Email</label>
                                                 </div>
-                                                <div class="col-12 col-md-7">
+                                                <div class="col-12 col-md-5">
                                                     <p class="form-control-static"><?php echo $email;?></p>
                                                 </div>
                                             </div>
@@ -311,7 +311,7 @@
                                                 <div class="col col-md-4">
                                                     <label for="password-input" class=" form-control-label">Date of Birth</label>
                                                 </div>
-                                                <div class="col-12 col-md-7">
+                                                <div class="col-12 col-md-5">
                                                     <p class="form-control-static"><?php echo $birthday;?></p>
                                                 </div>
                                             </div>
@@ -338,7 +338,7 @@
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-4"></div>
-                                                <div class="col-md-7">
+                                                <div class="col-md-5">
                                                     <input type="file" id="fileToUpload" name="fileToUpload" class="form-control-file" accept="image/*" onchange="readURL(this);">
                                                 </div>
                                                 <div class="col-md-3"></div>

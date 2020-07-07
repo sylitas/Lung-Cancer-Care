@@ -161,6 +161,9 @@
                         <li class="has-sub">
                             <a class="js-arrow" href="index.php"><i class="fas fa-list-alt"></i>Data</a>
                         </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#"><i class="fas fa-user-md"></i>Patient</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -178,6 +181,9 @@
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
                             <a class="js-arrow" href="index.php"><i class="fas fa-list-alt"></i>Data</a>
+                        </li>
+                        <li class="active has-sub">
+                            <a class="js-arrow" href="#"><i class="fas fa-user-md"></i>Patient</a>
                         </li>
                     </ul>
                 </nav>
@@ -244,48 +250,79 @@
                     <div class="row">
                        <div class="col-lg-12">
                             <!-- USER DATA-->
-                            <div class="header-wrap">
-                                <h3 class="title-3 m-b-30">
-                                    <i class="zmdi zmdi-account-calendar"></i><?php echo $name; ?>'s information
-                                </h3>
-                            </div>
-                            <div class="table-responsive m-b-40">
-                                    <table class="table table-borderless table-data3">
+                            <div class="user-data m-b-30">
+                                <div class="row">
+                                    <div class="col-lg-10">
+                                        <h3 class="title-3 m-b-30">
+                                            <i class="zmdi zmdi-account-calendar"></i><?php echo $name; ?>'s information
+                                        </h3> 
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button id="myBtn" class="btn btn-primary btn-lg">
+                                            <i class="zmdi zmdi-plus"></i> Upload
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="table-responsive table-data" style="height: auto !important;">
+                                    <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Fullname</th>
-                                                <th>Gender</th>
-                                                <th>Date Of Birth</th>
-                                                <th>Phone number</th>
-                                                <th>Address</th>
+                                                <td></td>
+                                                <td><h4>ID</h4></td>
+                                                <td><h4>Fullname</h4></td>
+                                                <td><h4>Gender</h4></td>
+                                                <td><h4>Date of Birth</h4></td>
+                                                <td><h4>Phone number</h4></td>
+                                                <td><h4>Address</h4></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?php echo $id; ?></td>
-                                                <td><?php echo $name; ?></td>
-                                                <td><?php echo $gender; ?></td>
-                                                <td><?php echo $birthday; ?></td>
-                                                <td><?php echo $phone; ?></td>
-                                                <td><?php echo $address; ?></td>
+                                                <td></td>
+                                                <td>
+                                                    <div class="table-data__info">
+                                                        <p><?php echo $id; ?></p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-data__info">
+                                                        <p><?php echo $name; ?></p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-data__info">
+                                                        <p><?php echo $gender; ?></p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-data__info">
+                                                        <p><?php echo $birthday; ?></p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-data__info">
+                                                        <p><?php echo $phone; ?></p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-data__info">
+                                                        <p><?php echo $address; ?></p>
+                                                    </div>
+                                                </td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <br>
+                            </div>
                             <!-- END USER DATA-->
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4">
-                            <div class="header-wrap" style="padding-bottom: 13px;">
-                                <button id="myBtn" class="btn btn-primary btn-lg">
-                                    <i class="zmdi zmdi-plus"></i> Upload
-                                </button>
-                                <button class="btn btn-primary btn-lg">
-                                    <i class="zmdi zmdi-plus"></i> Upload
-                                </button>
-                            </div>
                             <div class="top-campaign">
                                  <table class="table table-top-campaign">
                                     <thead>
@@ -322,61 +359,9 @@ while($row = mysqli_fetch_array($querydata)){
                             </div>
                         </div>
                         <div class="col-lg-8">
-                            <div class="user-data m-b-30">
-                                <div class="header-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-5">
-                                            <h3 class="title-3 m-b-30">File Detais</h3>
-                                        </div>
-                                        <div class="col-lg-7">
-                                            <form class="form-header" action="" method="POST">
-                                                <input class="au-input au-input--xl" type="text" name="inputsearch" placeholder="Search for ID, Phonenumber or Name of Patient" />
-                                                <button class="au-btn--submit" type="submit" name="search">
-                                                    <i class="zmdi zmdi-search"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive table-data"  style="height: 400px !important;">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <td><h4>Name</h4></td>
-                                                <td><h4>Size</h4></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-<?php
-    $zip = zip_open("ctfiles/CoolAdmin-master.zip");
-
-    if ($zip) {
-      while ($zip_entry = zip_read($zip)) {
-        $zipfilename = zip_entry_name($zip_entry);
-        $zipfilesize = number_format(((float)zip_entry_filesize($zip_entry)/1024),2);
-?>
-                                            <tr>
-                                                <td>
-                                                    <div class="table-data__info">
-                                                        <h6><?php echo $zipfilename; ?></h6>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data__info">
-                                                        <h6><?php echo $zipfilesize." KB"; ?></h6>
-                                                    </div>
-                                                </td>
-                                            </tr>
-<?php
-        }
-    zip_close($zip);
-    }
-?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="top-campaign">
+                                 
                             </div>
-                                <!-- END DATA TABLE-->
                         </div>
                     </div>
                     <div id="myModal" class="modal">
@@ -391,15 +376,14 @@ while($row = mysqli_fetch_array($querydata)){
                                     </div>
                                     <hr>
                                     <form id="myForm" action="" method="POST" enctype="multipart/form-data" novalidate="novalidate">
-                                        <div class="row">
-                                            <div class="col-lg-5">
+                                        <div class="row form-group">
+                                            <div class="col col-md-4">
                                                 <label for="file-input" class=" form-control-label">File input (Zipfile Only)</label>
                                             </div>
-                                            <div class="col-md-7">
+                                            <div class="col-12 col-md-5">
                                                 <input type="file" id="" name="upZip" class="form-control-file" accept=".zip,.rar,.7zip">
                                             </div>
                                         </div>
-                                        <br>
                                         <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block" name="up">
                                             <span id="payment-button-amount">Submit</span>
                                         </button>

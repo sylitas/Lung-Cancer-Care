@@ -92,9 +92,6 @@
                         <li class="has-sub">
                             <a class="js-arrow" href="#"><i class="fas fa-list-alt"></i>Data</a>
                         </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#"><i class="fas fa-user-md"></i>Patient</a>
-                        </li>
                     </ul>
                 </div>
             </nav>
@@ -112,9 +109,6 @@
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
                             <a class="js-arrow" href="#"><i class="fas fa-list-alt"></i>Data</a>
-                        </li>
-                        <li class="active has-sub">
-                            <a class="js-arrow" href="#"><i class="fas fa-user-md"></i>Patient</a>
                         </li>
                     </ul>
                 </nav>
@@ -256,20 +250,11 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-12">
                                         <div class="overview-wrap">
                                             <h2 class="title-1"><b>Data</b></h2>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="overview-wrap">
                                             <button id="myBtn" class="btn btn-primary btn-lg">
-                                                <i class="zmdi zmdi-plus"></i>
-                                                Add
-                                            </button>
-                                             <button class="btn btn-danger btn-lg">
-                                                <i class="zmdi zmdi-minus"></i>
-                                                Delete
+                                                <i class="zmdi zmdi-plus"></i>Add
                                             </button>
                                         </div>
                                     </div>
@@ -358,10 +343,9 @@
                                                 <th>Date Uploaded</th>
                                                 <th>ID Patient</th>
                                                 <th>Name</th>
-                                                <th>Gender</th>
+                                                <th class="text-right">Gender</th>
                                                 <th class="text-right">Birthday</th>
                                                 <th class="text-right">Phone Number</th>
-                                                <th class="text-right">Edit & Upload</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -442,14 +426,14 @@
         if($row['birthday'] == null){
             $row['birthday'] = "None";
         }
-        echo'                                   <tr>
+        $link="'patient.php?id=".$row['id']."'";
+    echo'                                       <tr onclick="window.location='.$link.';">
                                                 <td>'.$row['date'].'</td>
                                                 <td>'.$row['id-patient'].'</td>
                                                 <td>'.$row['name'].'</td>
-                                                <td>'.$row['gender'].'</td>
+                                                <td class="text-right">'.$row['gender'].'</td>
                                                 <td class="text-right">'.$row['birthday'].'</td>
                                                 <td class="text-right">'.$row['phonenumber'].'</td>
-                                                <td class="text-right"><a href="patient.php?id='.$row['id'].'" style="color: black"><ins>More Details</ins></a></td>
                                                 </tr>
             ';
                                              }

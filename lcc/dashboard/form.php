@@ -1,4 +1,4 @@
-<?php
+    <?php
     require_once "../vendor/autoload.php";
     use \Firebase\JWT\JWT;
     session_start();
@@ -25,16 +25,23 @@
     $result = mysqli_query($connection,$select);
     $u = mysqli_fetch_array($result);
         $username = $u["username"];
-        $path = $u["path"];
+        // $path = $u["path"];
         $firstname = $u["firstname"];
         $lastname = $u["lastname"];
         $birthday = $u["birthday"];
         $email = $u["email"];
-        if($path == null){$path = "images\avatar\profile_0.png";}
+
         if($firstname == null){$firstname = "Please Update the Firstname";}
         if($lastname == null){$lastname = "Please Update the Lastname";}
         if($birthday == null){$birthday = "Please Update the Birthday";}
-        if($email == null){$email = "Please Update the Email";}        
+        if($email == null){$email = "Please Update the Email";} 
+    //-----------------------check avatar---------------------------
+    $destination = "images/avatar/profile_".$checkaccount.".png";
+    if(!file_exists($destination)){
+        $path = "images/avatar/profile_0.png";
+    }else{
+        $path = "images/avatar/profile_".$checkaccount.".png";
+    }   
 
         
 
@@ -73,12 +80,10 @@
                   $uploadOk = 0;
                 }
                 if ($uploadOk != 0) {
-                    $destination = "images/avatar/profile_".$checkaccount.".png";
                     if(file_exists($destination)){unlink($destination);}
                     move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $destination);
-                    $update = "UPDATE `login` SET `path` = '$destination' WHERE id = '$checkaccount'";
-                    mysqli_query($connection, $update);
                 }
+
             }
             // --------end upload avatar------------
 			if($_POST['firstname'] != null){
@@ -274,6 +279,12 @@
                                                         echo '<img src ="' .$path. '"/>'
 ?> 
                                             	</div>
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-5">
+                                                    <button id="myBtn" class="btn btn-primary btn-lg">
+                                                        <i class="zmdi zmdi-plus"></i>Edit
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col col-md-4">

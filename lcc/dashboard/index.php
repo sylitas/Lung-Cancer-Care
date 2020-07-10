@@ -21,13 +21,19 @@
         echo $e->getMessage();
     }
     
-    $select = "SELECT username,email,`path` FROM login WHERE id = '$checkaccount'";
+    $select = "SELECT username,email FROM login WHERE id = '$checkaccount'";
     $result = mysqli_query($connection,$select);
     $u = mysqli_fetch_array($result);
         $username = $u["username"];
         $email = $u["email"];
         if($email == null){$email = "Please Update the Email";}
-        $path = $u["path"];
+    //-----------------------check avatar---------------------------
+    $destination = "images/avatar/profile_".$checkaccount.".png";
+    if(!file_exists($destination)){
+        $path = "images/avatar/profile_0.png";
+    }else{
+        $path = "images/avatar/profile_".$checkaccount.".png";
+    }   
  ?>
 
 <!DOCTYPE html>

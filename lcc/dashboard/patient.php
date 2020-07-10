@@ -30,10 +30,15 @@
     $result = mysqli_query($connection,$select);
     $u = mysqli_fetch_array($result);
         $username = $u["username"];
-        $path = $u["path"];
         $email = $u["email"];
-        if($path == null){$path = "images\avatar\profile_0.png";}
         if($email == null){$email = "Please Update the Email";} 
+    //-----------------------check avatar---------------------------
+    $destination = "images/avatar/profile_".$checkaccount.".png";
+    if(!file_exists($destination)){
+        $path = "images/avatar/profile_0.png";
+    }else{
+        $path = "images/avatar/profile_".$checkaccount.".png";
+    }   
     // --------------------------------end---------------------------------    
     //---------------------data form ctdata table -------------------------
     $patientdata = "SELECT * FROM ctdata WHERE checkaccount = '$checkaccount' AND id = '$checkpatient'";
@@ -277,13 +282,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-5">
                             <div class="header-wrap" style="padding-bottom: 13px;">
+                                <h3 class="title-3 m-b-30">CT Files</h3>
                                 <button id="myBtn" class="btn btn-primary btn-lg">
                                     <i class="zmdi zmdi-plus"></i> Upload
                                 </button>
-                                <button class="btn btn-primary btn-lg">
-                                    <i class="zmdi zmdi-plus"></i> Upload
+                                <button class="btn btn-danger    btn-lg">
+                                    <i class="zmdi zmdi-minus"></i> Delete
                                 </button>
                             </div>
                             <div class="top-campaign">
@@ -291,8 +297,9 @@
                                     <thead>
                                         <tr>
                                             <td></td>
-                                            <td><h4>Files Uploaded</h4></td>
                                             <td><h4>Date</h4></td>
+                                            <td><h4>Files</h4></td>
+                                            <td><h4>Save</h4></td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -300,17 +307,23 @@
 $ctfilepath = "SELECT * FROM ctfilepath WHERE checkpatient = '$checkpatient'";
 $querydata = mysqli_query($connection,$ctfilepath);
 while($row = mysqli_fetch_array($querydata)){
+    $link="'patient.php?id=".$checkpatient."&file=".$row['id']."'";
     echo    '
                                         <tr>
                                             <td></td>
                                             <td>
                                                 <div class="table-data__info">
-                                                    <p>'.substr($row['path'],8).'</p>
+                                                    <p>'.$row['date'].'</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="table-data__info" onclick="window.location='.$link.';" style="cursor: pointer";>
+                                                    <p><u>'.substr($row['path'],8).'</u></p>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="table-data__info">
-                                                    <p>'.$row['date'].'</p>
+                                                    <a href="'.$row['path'].'" download="'.substr($row['path'],8).'" target = "_blank"><u>Download</u><a/>
                                                 </div>
                                             </td>
                                         </tr>
@@ -321,35 +334,36 @@ while($row = mysqli_fetch_array($querydata)){
                                 </table>
                             </div>
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-7">
                             <div class="user-data m-b-30">
                                 <div class="header-wrap">
                                     <div class="row">
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-3">
                                             <h3 class="title-3 m-b-30">File Detais</h3>
                                         </div>
-                                        <div class="col-lg-7">
-                                            <form class="form-header" action="" method="POST">
-                                                <input class="au-input au-input--xl" type="text" name="inputsearch" placeholder="Search for ID, Phonenumber or Name of Patient" />
-                                                <button class="au-btn--submit" type="submit" name="search">
-                                                    <i class="zmdi zmdi-search"></i>
-                                                </button>
-                                            </form>
+                                        <div class="col-lg-9">
+                                            <i class="fa fa-search"></i>
+                                            <input class="au-input" type="text" name="" id="myInput" onkeyup="myFunction()" placeholder=" Search filename" style="width: 400px !important;" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="table-responsive table-data"  style="height: 400px !important;">
-                                    <table class="table">
+                                    <table class="table" id="myTable">
                                         <thead>
                                             <tr>
                                                 <td><h4>Name</h4></td>
                                                 <td><h4>Size</h4></td>
+                                                <td><h4>Save</h4></td>
                                             </tr>
                                         </thead>
                                         <tbody>
 <?php
-    $zip = zip_open("ctfiles/CoolAdmin-master.zip");
-
+if(isset($_GET['file'])){
+    $getfile = $_GET['file'];
+    $ctfilepath = "SELECT * FROM ctfilepath WHERE checkpatient = '$checkpatient' AND id = '$getfile'";
+    $querydata = mysqli_query($connection,$ctfilepath);
+    $row = mysqli_fetch_array($querydata);
+    $zip = zip_open($row['path']);
     if ($zip) {
       while ($zip_entry = zip_read($zip)) {
         $zipfilename = zip_entry_name($zip_entry);
@@ -357,7 +371,7 @@ while($row = mysqli_fetch_array($querydata)){
 ?>
                                             <tr>
                                                 <td>
-                                                    <div class="table-data__info">
+                                                    <div class="table-data__info" style="width: 200px;">
                                                         <h6><?php echo $zipfilename; ?></h6>
                                                     </div>
                                                 </td>
@@ -366,11 +380,20 @@ while($row = mysqli_fetch_array($querydata)){
                                                         <h6><?php echo $zipfilesize." KB"; ?></h6>
                                                     </div>
                                                 </td>
+                                                <td>
+                                                    <div class="table-data__info">
+<?php
+                                                        echo'<h6><a href="'.$zipfilename.'" target="_blank" download = "'.$zipfilename.'"><u>Download</u></a></h6>';
+?>
+                                                    </div>
+                                                </td>
                                             </tr>
 <?php
         }
     zip_close($zip);
     }
+}
+    
 ?>
                                         </tbody>
                                     </table>
@@ -433,6 +456,27 @@ while($row = mysqli_fetch_array($querydata)){
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
+      }
+    }
+    </script>
+    <!--Searchbar-->
+    <script>
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
       }
     }
     </script>

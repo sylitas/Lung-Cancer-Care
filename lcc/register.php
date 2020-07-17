@@ -42,7 +42,7 @@
 								$stmt->bind_param("ss",$username,$password_encrypted);
 								$stmt->execute();
 								$_SESSION["username"] = $username;
-								header('Location: login.php');
+								header('Location: login');
 							}else{
 								$message = "The Username has been taken. Please try again !";
 							}

@@ -252,9 +252,9 @@
                                 <h3 class="title-3 m-b-30">
                                     <i class="zmdi zmdi-account-calendar"></i><?php echo $name; ?>'s information
                                 </h3>
-                                <button id="myBtn2" class="btn btn-primary btn-lg">
+                                <!-- <button id="myBtn2" class="btn btn-primary btn-lg">
                                     Edit
-                                </button>
+                                </button> -->
                             </div>
                             <div class="table-responsive m-b-40">
                                     <table class="table table-borderless table-data3">
@@ -263,9 +263,9 @@
                                                 <th>ID</th>
                                                 <th>Fullname</th>
                                                 <th>Gender</th>
-                                                <th>Date Of Birth</th>
-                                                <th>Phone number</th>
-                                                <th>Address</th>
+                                                <th class="text-right">Date Of Birth</th>
+                                                <th class="text-right">Phone number</th>
+                                                <th class="text-right">Address</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -273,9 +273,9 @@
                                                 <td><?php echo $id; ?></td>
                                                 <td><?php echo $name; ?></td>
                                                 <td><?php echo $gender; ?></td>
-                                                <td><?php echo $birthday; ?></td>
-                                                <td><?php echo $phone; ?></td>
-                                                <td><?php echo $address; ?></td>
+                                                <td class="text-right"><?php echo $birthday; ?></td>
+                                                <td class="text-right"><?php echo $phone; ?></td>
+                                                <td class="text-right"><?php echo $address; ?></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -283,126 +283,69 @@
                             <!-- END USER DATA-->
                         </div>
                     </div>
+                    <div class="user-data m-b-30">
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-12">
                             <div class="header-wrap" style="padding-bottom: 13px;">
                                 <h3 class="title-3 m-b-30">CT Files</h3>
-                                <button id="myBtn" class="btn btn-primary btn-lg">
+                                <div>
+                                    <i class="fa fa-search"></i>
+                                    <input class="au-input" type="text" name="" id="myInput" onkeyup="myFunction()" placeholder=" Search filename" style="width: 400px !important;" />
+                                </div>
+                                <button id="myBtn" class="btn btn-primary btn-lg" style="margin-right: 20px !important;">
                                     <i class="zmdi zmdi-plus"></i> Upload
                                 </button>
-                                <button class="btn btn-danger    btn-lg">
-                                    <i class="zmdi zmdi-minus"></i> Delete
-                                </button>
                             </div>
-                            <div class="top-campaign">
-                                 <table class="table table-top-campaign">
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td><h4>Date</h4></td>
-                                            <td><h4>Files</h4></td>
-                                            <td><h4>Save</h4></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                           <div class="table-responsive table-data">
+                                    <table class="table" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <td><h4>File Name</h4></td>
+                                                <td class="text-right"><h4>Date Upload</h4></td>
+                                                <td class="text-center"><h4>More Detais</h4></td>
+                                                <td class="text-center"><h4>Download</h4></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 <?php
 $ctfilepath = "SELECT * FROM patientfile WHERE patient_id = '$checkpatient'";
 $querydata = mysqli_query($connection,$ctfilepath);
 while($row = mysqli_fetch_array($querydata)){
-    $link="'../../../../../lungcancer/home/patient/".$checkpatient."/".$row['id']."'";
-    echo    '
+    $link="'../../../../../../../lungcancer/home/patient/presenter".$checkpatient."/".$row['id']."'";
+?>
                                         <tr>
-                                            <td></td>
                                             <td>
                                                 <div class="table-data__info">
-                                                    <p>'.$row['date'].'</p>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="table-data__info" onclick="window.location='.$link.';" style="cursor: pointer";>
-                                                    <p><u>'.substr($row['path'],8).'</u></p>
+                                                    <p><?php echo substr($row['path'],8); ?></p>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="table-data__info">
-                                                    <a href="'.$row['path'].'" download="'.substr($row['path'],8).'" target = "_blank"><u>Download</u><a/>
+                                                    <p class="text-right"><?php echo $row['date']; ?></p>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <div class="table-data__info" onclick="window.location=<?php echo $link; ?>;" style="cursor: pointer";>
+                                                    <p class = "text-center"><u>View</u></p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <?php          
+                                                echo '<div class="table-data__info text-center">
+                                                    <a href="'.$row['path'].'" download="'.substr($row['path'],8).'" target = "_blank"><u>Save</u><a/>
+                                                </div>';
+                                                ?>
+
                                             </td>
                                         </tr>
-            ';
+<?php
                                             }
 ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="col-lg-7">
-                            <div class="user-data m-b-30">
-                                <div class="header-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <h3 class="title-3 m-b-30">File Detais</h3>
-                                        </div>
-                                        <div class="col-lg-9">
-                                            <i class="fa fa-search"></i>
-                                            <input class="au-input" type="text" name="" id="myInput" onkeyup="myFunction()" placeholder=" Search filename" style="width: 400px !important;" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive table-data"  style="height: 400px !important;">
-                                    <table class="table" id="myTable">
-                                        <thead>
-                                            <tr>
-                                                <td><h4>Name</h4></td>
-                                                <td><h4>Size</h4></td>
-                                                <td><h4>Save</h4></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-<?php
-if(isset($_GET['file'])){
-    $getfile = $_GET['file'];
-    $ctfilepath = "SELECT * FROM patientfile WHERE id = '$getfile'";
-    $querydata = mysqli_query($connection,$ctfilepath);
-    $row = mysqli_fetch_array($querydata);
-    $zip = zip_open($row['path']);
-    if ($zip) {
-      while ($zip_entry = zip_read($zip)) {
-        $zipfilename = zip_entry_name($zip_entry);
-        $zipfilesize = number_format(((float)zip_entry_filesize($zip_entry)/1024),2);
-?>
-                                            <tr>
-                                                <td>
-                                                    <div class="table-data__info" style="width: 200px;">
-                                                        <h6><?php echo $zipfilename; ?></h6>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data__info">
-                                                        <h6><?php echo $zipfilesize." KB"; ?></h6>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data__info">
-<?php
-                                                        echo'<h6><a href="'.$zipfilename.'" target="_blank" download = "'.$zipfilename.'"><u>Download</u></a></h6>';
-?>
-                                                    </div>
-                                                </td>
-                                            </tr>
-<?php
-        }
-    zip_close($zip);
-    }
-}
-    
-?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                                <!-- END DATA TABLE-->
-                        </div>
+                    </div>
                     </div>
                     <div id="myModal" class="modal">
                         <div class="modal-content">
@@ -433,7 +376,7 @@ if(isset($_GET['file'])){
                             </div>
                         </div>
                     </div>
-                    <div id="myModal2" class="modal">
+                    <!-- <div id="myModal2" class="modal">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <span class="close">&times;</span>
@@ -495,7 +438,7 @@ if(isset($_GET['file'])){
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                     <!--end design xD-->
                 </div>
             </div>

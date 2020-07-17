@@ -5,7 +5,7 @@
     include("../database_connection.php");
 
     if(!isset($_COOKIE['lcc'])){
-        header('Location: ../login.php');
+        header('Location: ../../../../../../lungcancer/login');
     }
     //decode---------------------------------------------------------------take id
     $jwt = $_COOKIE['lcc'];
@@ -19,13 +19,11 @@
         echo $e->getMessage();
     }
     
-
-    // --------------------------------------------------------------------
-    $select = "SELECT * FROM login WHERE id = '$checkaccount'";
+    //---------------------------------------------------------------------
+    $select = "SELECT * FROM doctor WHERE id = '$checkaccount'";
     $result = mysqli_query($connection,$select);
     $u = mysqli_fetch_array($result);
         $username = $u["username"];
-        // $path = $u["path"];
         $firstname = $u["firstname"];
         $lastname = $u["lastname"];
         $birthday = $u["birthday"];
@@ -33,11 +31,11 @@
 
         if($firstname == null){$firstname = "Please Update the Firstname";}
         if($lastname == null){$lastname = "Please Update the Lastname";}
-        if($birthday == null){$birthday = "Please Update the Birthday";}
-        if($email == null){$email = "Please Update the Email";} 
+        if($birthday == "0000-00-00"){$birthday = "Please Update the Birthday";}
+        if($email == null){$email = "Please Update the Email";}
     //-----------------------check avatar---------------------------
     $destination = "images/avatar/profile_".$checkaccount.".png";
-    if(!file_exists($destination)){
+    if(!file_exists($destination)){ 
         $path = "images/avatar/profile_0.png";
     }else{
         $path = "images/avatar/profile_".$checkaccount.".png";
@@ -90,7 +88,7 @@
 				$firstnameNew = $_POST['firstname'];
                 $firstnameNew = stripcslashes($firstnameNew);
                 $firstnameNew = mysqli_real_escape_string($connection,$firstnameNew);
-				$update = "UPDATE `login` SET firstname = ? WHERE id = '$checkaccount'";
+				$update = "UPDATE `doctor` SET firstname = ? WHERE id = '$checkaccount'";
                 $stmt = $connection->prepare($update);
                 $stmt->bind_param("s",$firstnameNew);
                 $stmt->execute();
@@ -99,7 +97,7 @@
 				$lastnameNew = $_POST['lastname'];
                 $lastnameNew = stripcslashes($lastnameNew);
                 $lastnameNew = mysqli_real_escape_string($connection,$lastnameNew);
-				$update = "UPDATE `login` SET lastname = ? WHERE id = '$checkaccount'";
+				$update = "UPDATE `doctor` SET lastname = ? WHERE id = '$checkaccount'";
 				$stmt = $connection->prepare($update);
                 $stmt->bind_param("s",$lastnameNew);
                 $stmt->execute();
@@ -108,14 +106,14 @@
 				$emailNew = $_POST['email'];
                 $emailNew = stripcslashes($emailNew);
                 $emailNew = mysqli_real_escape_string($connection,$emailNew);
-				$update = "UPDATE `login` SET email = ? WHERE id = '$checkaccount'";
+				$update = "UPDATE `doctor` SET email = ? WHERE id = '$checkaccount'";
 				$stmt = $connection->prepare($update);
                 $stmt->bind_param("s",$emailNew);
                 $stmt->execute();
 			}
 			if($_POST['birthday'] != null){
 				$birthdayNew = $_POST['birthday'];
-				$update = "UPDATE `login` SET birthday = '$birthdayNew' WHERE id = '$checkaccount'";
+				$update = "UPDATE `doctor` SET birthday = '$birthdayNew' WHERE id = '$checkaccount'";
 				mysqli_query($connection, $update);
 			}
 		}
@@ -135,37 +133,38 @@
     <title>Forms</title>
 
     <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/css/font-face.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/css/theme.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" type="text/css" href="/Git-lcc/internship-project/lcc/dashboard/css/main.css">
 
 </head>
 
-<body class="animsition">
+<body class="animsition" style="overflow: hidden !important;">
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="index.php">
-                            <img src="images/icon/LogoNew-mini.png"/>
+                        <a class="logo" href="../home">
+                            <img src="/Git-lcc/internship-project/lcc/dashboard/images/icon/LogoNew-mini.png"/>
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -179,7 +178,7 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="has-sub">
-                            <a class="js-arrow" href="index.php"><i class="fas fa-tachometer-alt"></i>Data</a>
+                            <a class="js-arrow" href="../home"><i class="fas fa-list-alt"></i>Patient's Data</a>
                         </li>
                     </ul>
                 </div>
@@ -189,15 +188,15 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="index.php">
-                    <img src="images/icon/LogoNew-mini.png"/>
+                <a href="../home">
+                    <img src="/Git-lcc/internship-project/lcc/dashboard/images/icon/LogoNew-mini.png"/>
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="index.php"><i class="fas fa-tachometer-alt"></i>Data</a>
+                            <a class="js-arrow" href="../home"><i class="fas fa-list-alt"></i>Patient's Data</a>
                         </li>
                     </ul>
                 </nav>
@@ -218,7 +217,7 @@
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
 <?php
-                                            echo '<img src ="' .$path. '"/>'
+                                            echo '<img src ="/Git-lcc/internship-project/lcc/dashboard/' .$path. '"/>'
 ?>
                                         </div>
                                         <div class="content">
@@ -229,7 +228,7 @@
                                                 <div class="image">
                                                     <a href="">
 <?php
-                                                        echo '<img src ="' .$path. '"/>'
+                                                        echo '<img src ="/Git-lcc/internship-project/lcc/dashboard/' .$path. '"/>'
 ?>                                                  </a>
                                                 </div>
                                                 <div class="content">
@@ -246,7 +245,7 @@
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="../login.php?logout=1"><i class="zmdi zmdi-power"></i>Logout</a>
+                                                <a href="../login?logout=1"><i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
                                     </div>
@@ -263,10 +262,16 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
+                            <div class="col-lg-3"></div>
                             <div class="col-lg-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Information</strong>
+                                        <div class="header-wrap">
+                                            <strong>Information</strong>
+                                            <button id="myBtn" class="btn btn-primary btn-lg">
+                                                <i class="zmdi zmdi-plus"></i>Edit
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="card-body card-block">
                                         <form action="" method="" enctype="multipart/form-data" class="form-horizontal">
@@ -276,15 +281,9 @@
                                                 </div>
                                                 <div class="col-md-3">
 <?php
-                                                        echo '<img src ="' .$path. '"/>'
+                                                        echo '<img src ="/Git-lcc/internship-project/lcc/dashboard/' .$path. '"/>'
 ?> 
                                             	</div>
-                                                <div class="col-md-2"></div>
-                                                <div class="col-md-5">
-                                                    <button id="myBtn" class="btn btn-primary btn-lg">
-                                                        <i class="zmdi zmdi-plus"></i>Edit
-                                                    </button>
-                                                </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col col-md-4">
@@ -332,73 +331,79 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                 <div class="card">
-                                    <div class="card-header">
-                                        <strong>Update Your Information</strong>
+                            <div class="col-lg-3"></div>
+                            <!-- Modal-Box -->
+                            <div id="myModal" class="modal">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span class="close">&times;</span>
                                     </div>
-                                    <div class="card-body card-block">
-                                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                            <div class="row form-group">
-                                                <div class="col-md-4">
-                                                    <label for="file-input" class=" form-control-label">Avatar</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <img id="avatar" src="https://via.placeholder.com/150" alt="Your Avatar" >
-                                                </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <strong>Update Your Information</strong>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col-md-4"></div>
-                                                <div class="col-md-7">
-                                                    <input type="file" id="fileToUpload" name="fileToUpload" class="form-control-file" accept="image/*" onchange="readURL(this);">
-                                                </div>
-                                                <div class="col-md-3"></div>
+                                            <div class="card-body card-block">
+                                                <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                                    <div class="row form-group">
+                                                        <div class="col-md-4">
+                                                            <label for="file-input" class=" form-control-label">Avatar</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <img id="avatar" src="https://via.placeholder.com/150" alt="Your Avatar" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-4"></div>
+                                                        <div class="col-md-7">
+                                                            <input type="file" id="fileToUpload" name="fileToUpload" class="form-control-file" accept="image/*" onchange="readURL(this);">
+                                                        </div>
+                                                        <div class="col-md-3"></div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col col-md-4">
+                                                            <label for="text-input" class=" form-control-label">First Name</label>
+                                                        </div>
+                                                        <div class="col-12 col-md-7">
+                                                            <input type="text" id="text-input" name="firstname" placeholder="first name" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col col-md-4">
+                                                            <label for="text-input" class=" form-control-label">Last Name</label>
+                                                        </div>
+                                                        <div class="col-12 col-md-7">
+                                                            <input type="text" id="text-input" name="lastname" placeholder="last name" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col col-md-4">
+                                                            <label for="email-input" class=" form-control-label">Email</label>
+                                                        </div>
+                                                        <div class="col-12 col-md-7">
+                                                            <input type="email" id="email" name="email" placeholder="name@example.com" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col col-md-4">
+                                                            <label for="password-input" class=" form-control-label">Date of Birth</label>
+                                                        </div>
+                                                        <div class="col-12 col-md-7">
+                                                            <input type="date" name="birthday" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-5"></div>
+                                                        <div class="col-md-7">
+                                                            <button id="upload" name="update" type="submit" class="btn btn-primary btn-sm">
+                                                                <i class="fa fa-dot-circle-o"></i> Update
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-4">
-                                                    <label for="text-input" class=" form-control-label">First Name</label>
-                                                </div>
-                                                <div class="col-12 col-md-7">
-                                                    <input type="text" id="text-input" name="firstname" placeholder="first name" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-4">
-                                                    <label for="text-input" class=" form-control-label">Last Name</label>
-                                                </div>
-                                                <div class="col-12 col-md-7">
-                                                    <input type="text" id="text-input" name="lastname" placeholder="last name" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-4">
-                                                    <label for="email-input" class=" form-control-label">Email</label>
-                                                </div>
-                                                <div class="col-12 col-md-7">
-                                                    <input type="email" id="email" name="email" placeholder="name@example.com" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-4">
-                                                    <label for="password-input" class=" form-control-label">Date of Birth</label>
-                                                </div>
-                                                <div class="col-12 col-md-7">
-                                                    <input type="date" name="birthday" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                            <div class="col-md-5"></div>
-                                            <div class="col-md-7">
-                                                <button id="upload" name="update" type="submit" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-dot-circle-o"></i> Update
-                                                </button>
-                                            </div>
+                                            <div class="card-footer"></div>
                                         </div>
-                                        </form>
                                     </div>
-                                    <div class="card-footer">
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -420,29 +425,56 @@
             }
         }
 	</script>
+    <script>
+        function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+        $(document).on("keydown", disableF5);
+    </script>
+    <!-- Modal-Box -->
+    <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    </script>
     <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/bootstrap.min.js"></script>
     <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/slick/slick.min.js">
     </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/wow/wow.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/animsition/animsition.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/counter-up/jquery.counterup.min.js">
     </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/select2/select2.min.js">
     </script>
 
     <!-- Main JS-->
-    <script src="js/main.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/js/main.js"></script>
 
 </body>
 

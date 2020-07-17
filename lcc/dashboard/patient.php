@@ -6,12 +6,12 @@
     include("../database_connection.php");
 
     if(!isset($_COOKIE['lcc'])){
-        header('Location: ../login.php');
+        header('Location: ../../../../../../lungcancer/login');
     }
     if(isset($_GET['id'])){
         $checkpatient = $_GET['id'];
     }else{
-        header('Location: ../login.php');
+        header('Location: ../../../../../../lungcancer/login');
     }
     //decode----------------------------------------------------------take id
     $jwt = $_COOKIE['lcc'];
@@ -26,7 +26,7 @@
     }
     // --------------------------------------------------------------------
     //---------------------data form login table --------------------------
-    $select = "SELECT * FROM login WHERE id = '$checkaccount'";
+    $select = "SELECT username,email FROM doctor WHERE id = '$checkaccount'";
     $result = mysqli_query($connection,$select);
     $u = mysqli_fetch_array($result);
         $username = $u["username"];
@@ -40,13 +40,12 @@
         $path = "images/avatar/profile_".$checkaccount.".png";
     }   
     // --------------------------------end---------------------------------    
-    //---------------------data form ctdata table -------------------------
-    $patientdata = "SELECT * FROM ctdata WHERE checkaccount = '$checkaccount' AND id = '$checkpatient'";
+    //---------------------data form patientx table -------------------------
+    $patientdata = "SELECT * FROM patient WHERE doctor_id = '$checkaccount'";
     $rsdata = mysqli_query($connection,$patientdata);
     $y = mysqli_fetch_array($rsdata);
         $date = $y["date"];
         $id = $y["id-patient"];
-        $type = $y["typedata"];
         $name = $y["name"];
         $gender = $y["gender"];
         
@@ -62,10 +61,10 @@
             $address = $y["address"];
         }
         
-        if($y["phonenumber"] == null){
+        if($y["phone"] == null){
             $phone = "None";
         }else{
-            $phone = $y["phonenumber"];
+            $phone = $y["phone"];
         }
 
         if($gender == "n"){
@@ -84,11 +83,11 @@
                 $uploadOk = 1;
                 $tail = explode('.', $_FILES['upZip']['name']);
                 $tail = strtolower($tail[(count($tail) - 1)]);
-                if($tail != "zip" && $tail != "rar" && $tail != "7zip") {
+                if($tail != "zip") {
                   $uploadOk = 0;
                   ?>
                   <script type="text/javascript">
-                      alert("Only Zipfile is allowed !");
+                      alert("Only .Zip file is allowed ! Please zip file to format .zip");
                   </script>
                   <?php
                 }
@@ -97,9 +96,9 @@
                     move_uploaded_file($_FILES["upZip"]["tmp_name"], $destination);
                     date_default_timezone_set('Asia/Ho_Chi_Minh');
                     $datetime = date("Y-m-d H:i:s");
-                    $INSERT = "INSERT INTO `ctfilepath` (`date`,`path`,checkpatient) VALUES (?,?,?)";
+                    $INSERT = "INSERT INTO `patientfile` (`patient_id`,`date`,`path`) VALUES (?,?,?)";
                     $stmt = $connection->prepare($INSERT);
-                    $stmt->bind_param("sss",$datetime,$destination,$checkpatient);
+                    $stmt->bind_param("sss",$checkpatient,$datetime,$destination);
                     $stmt->execute();
                 }
             }
@@ -121,26 +120,26 @@
     <title>Patient Details</title>
 
     <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/css/font-face.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" href="css/main.css">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/css/theme.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="/Git-lcc/internship-project/lcc/dashboard/css/main.css">
 </head>
 <body class="animsition">
     <div class="page-wrapper">
@@ -149,8 +148,8 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="indexphp">
-                            <img src="images/icon/LogoNew-mini.png" />
+                        <a class="logo" href= "../../../../lungcancer/home">
+                            <img src="/Git-lcc/internship-project/lcc/dashboard/images/icon/LogoNew-mini.png" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -164,7 +163,7 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="has-sub">
-                            <a class="js-arrow" href="index.php"><i class="fas fa-list-alt"></i>Data</a>
+                            <a class="js-arrow" href="../../../../lungcancer/home"><i class="fas fa-list-alt"></i>Patient's Data</a>
                         </li>
                     </ul>
                 </div>
@@ -174,15 +173,15 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="index.php">
-                    <img src="images/icon/LogoNew-mini.png" />
+                <a href="../../../../lungcancer/home">
+                    <img src="/Git-lcc/internship-project/lcc/dashboard/images/icon/LogoNew-mini.png" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="index.php"><i class="fas fa-list-alt"></i>Data</a>
+                            <a class="js-arrow" href="../../../../lungcancer/home"><i class="fas fa-list-alt"></i>Patient's Data</a>
                         </li>
                     </ul>
                 </nav>
@@ -202,7 +201,7 @@
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
 <?php
-                                            echo '<img src ="'.$path.'"/>'
+                                            echo '<img src ="/Git-lcc/internship-project/lcc/dashboard/'.$path.'"/>'
 ?>
                                         </div>
                                         <div class="content">
@@ -213,7 +212,7 @@
                                                 <div class="image">
                                                     <a href="#">
 <?php
-                                            echo '<img src ="'.$path.'"/>'
+                                            echo '<img src ="/Git-lcc/internship-project/lcc/dashboard/'.$path.'"/>'
 ?>
                                                     </a>
                                                 </div>
@@ -226,12 +225,12 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="form.php">
+                                                    <a href="../../../../../../lungcancer/home/form">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="../login.php?logout=1"><i class="zmdi zmdi-power"></i>Logout</a>
+                                                <a href="../../../../../lungcancer/login?logout=1"><i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
                                     </div>
@@ -253,6 +252,9 @@
                                 <h3 class="title-3 m-b-30">
                                     <i class="zmdi zmdi-account-calendar"></i><?php echo $name; ?>'s information
                                 </h3>
+                                <button id="myBtn2" class="btn btn-primary btn-lg">
+                                    Edit
+                                </button>
                             </div>
                             <div class="table-responsive m-b-40">
                                     <table class="table table-borderless table-data3">
@@ -304,10 +306,10 @@
                                     </thead>
                                     <tbody>
 <?php
-$ctfilepath = "SELECT * FROM ctfilepath WHERE checkpatient = '$checkpatient'";
+$ctfilepath = "SELECT * FROM patientfile WHERE patient_id = '$checkpatient'";
 $querydata = mysqli_query($connection,$ctfilepath);
 while($row = mysqli_fetch_array($querydata)){
-    $link="'patient.php?id=".$checkpatient."&file=".$row['id']."'";
+    $link="'../../../../../lungcancer/home/patient/".$checkpatient."/".$row['id']."'";
     echo    '
                                         <tr>
                                             <td></td>
@@ -360,7 +362,7 @@ while($row = mysqli_fetch_array($querydata)){
 <?php
 if(isset($_GET['file'])){
     $getfile = $_GET['file'];
-    $ctfilepath = "SELECT * FROM ctfilepath WHERE checkpatient = '$checkpatient' AND id = '$getfile'";
+    $ctfilepath = "SELECT * FROM patientfile WHERE id = '$getfile'";
     $querydata = mysqli_query($connection,$ctfilepath);
     $row = mysqli_fetch_array($querydata);
     $zip = zip_open($row['path']);
@@ -419,7 +421,7 @@ if(isset($_GET['file'])){
                                                 <label for="file-input" class=" form-control-label">File input (Zipfile Only)</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <input type="file" id="" name="upZip" class="form-control-file" accept=".zip,.rar,.7zip">
+                                                <input type="file" id="" name="upZip" class="form-control-file" accept=".zip">
                                             </div>
                                         </div>
                                         <br>
@@ -431,33 +433,107 @@ if(isset($_GET['file'])){
                             </div>
                         </div>
                     </div>
+                    <div id="myModal2" class="modal">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span class="close">&times;</span>
+                                    </div>
+                                    <div class="card">
+                                            <div class="card-body">
+                                            <div class="card-title">
+                                                <h3 class="text-center title-2">Patient Details</h3>
+                                            </div>
+                                            <hr>
+                                            <form id="myForm" action="" method="POST" novalidate="novalidate">
+                                                <div class="form-group">
+                                                    <label for="cc-payment" class="control-label mb-1">ID patient</label>
+                                                    <input id="cc-pament" name="idpatient" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
+                                                </div>
+                                                <div class="form-group has-success">
+                                                    <label for="cc-name" class="control-label mb-1">Full Name</label>
+                                                    <input id="cc-name" name="namepatient" type="text" class="form-control cc-name valid" data-val="true"
+                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
+                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                                </div>
+                                                <div class="form-group has-success">
+                                                    <label class="control-label mb-1">Phone Number</label>
+                                                    <input name="phonepatient" type="text" class="form-control cc-name valid" data-val="true"
+                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
+                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                                </div>
+                                                <div class="form-group has-success">
+                                                    <label class="control-label mb-1">Address</label>
+                                                    <input name="addresspatient" type="text" class="form-control cc-name valid" data-val="true"
+                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
+                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="select" class=" form-control-label">Gender</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <select name="genderpatient" id="select" class="form-control" required>
+                                                            <option value="null" selected>None</option>
+                                                            <option value="m">Male</option>
+                                                            <option value="f">Female</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        <label for="select" class=" form-control-label">Birthday</label>
+                                                    </div>
+                                                    <div class="col-12 col-md-9">
+                                                        <input id="" name="birthdaypatient" type="date" class="form-control cc-name valid" data-val="true"
+                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
+                                                    </div>
+                                                </div>
+                                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block" name="uploadfile">
+                                                    <span id="payment-button-amount">Submit</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     <!--end design xD-->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal-Box -->
+ 
+    <!-- Modal-Box-1 -->
     <script>
     // Get the modal
     var modal = document.getElementById("myModal");
+    var modal2 = document.getElementById("myModal2");
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
+    var btn2 = document.getElementById("myBtn2");
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     // When the user clicks the button, open the modal 
     btn.onclick = function() {
       modal.style.display = "block";
     }
+    btn2.onclick = function() {
+      modal2.style.display = "block";
+    }
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
-      modal.style.display = "none";
+        modal.style.display = "none";
+        modal2.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
+      if (event.target == modal2) {
+        modal2.style.display = "none";
+      }
     }
+    </script>
     </script>
     <!--Searchbar-->
     <script>
@@ -482,26 +558,26 @@ if(isset($_GET['file'])){
     </script>
     </script>
     <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/bootstrap.min.js"></script>
     <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/slick/slick.min.js">
     </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/wow/wow.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/animsition/animsition.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/counter-up/jquery.counterup.min.js">
     </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/select2/select2.min.js">
     </script>
     <!-- Main JS-->
-    <script src="js/main.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/js/main.js"></script>
 </body>
 </html>

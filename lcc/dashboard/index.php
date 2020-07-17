@@ -6,7 +6,7 @@
 
     
     if(!isset($_COOKIE['lcc'])){
-        header('Location: ../login.php');
+        header('Location: ../../../../../../lungcancer/login');
     }
 
 
@@ -21,7 +21,7 @@
         echo $e->getMessage();
     }
     
-    $select = "SELECT username,email FROM login WHERE id = '$checkaccount'";
+    $select = "SELECT username,email FROM doctor WHERE id = '$checkaccount'";
     $result = mysqli_query($connection,$select);
     $u = mysqli_fetch_array($result);
         $username = $u["username"];
@@ -51,26 +51,26 @@
     <title>Dashboard</title>
 
     <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/css/font-face.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
-    <link href="css/main.css" rel="stylesheet">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/css/theme.css" rel="stylesheet" media="all">
+    <link href="/Git-lcc/internship-project/lcc/dashboard/css/main.css" rel="stylesheet">
 
 </head>
 
@@ -81,8 +81,8 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="indexphp">
-                            <img src="images/icon/LogoNew-mini.png" />
+                        <a class="logo" href="home">
+                            <img src="/Git-lcc/internship-project/lcc/dashboard/images/icon/LogoNew-mini.png" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -96,7 +96,7 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="has-sub">
-                            <a class="js-arrow" href="#"><i class="fas fa-list-alt"></i>Data</a>
+                            <a class="js-arrow" href="#"><i class="fas fa-list-alt"></i>Patient's Data</a>
                         </li>
                     </ul>
                 </div>
@@ -106,15 +106,15 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="index.php">
-                    <img src="images/icon/LogoNew-mini.png" />
+                <a href="home">
+                    <img src="/Git-lcc/internship-project/lcc/dashboard/images/icon/LogoNew-mini.png" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="#"><i class="fas fa-list-alt"></i>Data</a>
+                            <a class="js-arrow" href="#"><i class="fas fa-list-alt"></i>Patient's Data</a>
                         </li>
                     </ul>
                 </nav>
@@ -139,7 +139,7 @@
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
 <?php
-                                            echo '<img src ="'.$path.'"/>'
+                                            echo '<img src ="/Git-lcc/internship-project/lcc/dashboard/'.$path.'"/>'
 ?>
                                         </div>
                                         <div class="content">
@@ -150,7 +150,7 @@
                                                 <div class="image">
                                                     <a href="#">
 <?php
-                                            echo '<img src ="'.$path.'"/>'
+                                            echo '<img src ="/Git-lcc/internship-project/lcc/dashboard/'.$path.'"/>'
 ?>
                                                     </a>
                                                 </div>
@@ -163,12 +163,12 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="form.php">
+                                                    <a href="home/form">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="../login.php?logout=1"><i class="zmdi zmdi-power"></i>Logout</a>
+                                                <a href="./login?logout=1"><i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
                                     </div>
@@ -372,32 +372,21 @@
             $id = $_POST['idpatient'];
             $name = $_POST['namepatient'];
             $gender = $_POST['genderpatient'];
-
-            if($_POST['phonepatient'] == null){
-                $phone = null;
-            }else{
-                $phone = $_POST['phonepatient'];
-            }
-
-            if($_POST['birthdaypatient'] == null){
-                $birthday = null;
-            }else{
-                $birthday = $_POST['birthdaypatient'];
-            }
-
-            if($_POST['addresspatient'] == null){
-                $address = null;
-            }else{
-                $address = $_POST['addresspatient'];
-            }
+            $phone = $_POST['phonepatient'];
+            $birthday = $_POST['birthdaypatient'];
+            $address = $_POST['addresspatient'];
 
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $date = date("Y-m-d H:i:s");
-            $INSERT = "INSERT Into `ctdata` (`date`,`id-patient`,checkaccount,name,gender,birthday,address,phonenumber) values (?,?,?,?,?,?,?,?)";
+
+            $INSERT = "INSERT Into `patient`(`doctor_id`,`date`,`id-patient`,name,gender,birthday,phone,address) VALUES (?,?,?,?,?,?,?,?)";
             $stmt = $connection->prepare($INSERT);
-            $stmt->bind_param("ssssssss",$date,$id,$checkaccount,$name,$gender,$birthday,$address,$phone);
+            $stmt->bind_param("ssssssss",$checkaccount,$date,$id,$name,$gender,$birthday,$phone,$address);
             $stmt->execute();
-            $query = "SELECT * FROM ctdata WHERE checkaccount = '$checkaccount'";
+
+            
+
+            $query = "SELECT * FROM patient WHERE doctor_id = '$checkaccount'";
         }
     }
 
@@ -408,12 +397,12 @@
         $search = mysqli_real_escape_string($connection,$search);
         
         if($_POST['inputsearch'] == ""){
-            $query = "SELECT * FROM ctdata WHERE checkaccount = '$checkaccount'";
+            $query = "SELECT * FROM patient WHERE doctor_id = '$checkaccount'";
         }else{
-            $query = "SELECT * FROM ctdata WHERE checkaccount = '$checkaccount' AND (name = '$search' OR `id-patient` = '$search' OR `phonenumber` = '$search')";
+            $query = "SELECT * FROM patient WHERE doctor_id = '$checkaccount' AND (name = '$search' OR `id-patient` = '$search' OR `phone` = '$search')";
         }
     }else{
-        $query = "SELECT * FROM ctdata WHERE checkaccount = '$checkaccount'";
+        $query = "SELECT * FROM patient WHERE doctor_id = '$checkaccount'";
     }
     $result = mysqli_query($connection,$query);
     while($row = mysqli_fetch_array($result)){
@@ -426,20 +415,20 @@
             $row['gender'] = "Female";
         }
 
-        if($row['phonenumber'] == null){
-            $row['phonenumber'] = "None";
+        if($row['phone'] == null){
+            $row['phone'] = "None";
         }
         if($row['birthday'] == null){
             $row['birthday'] = "None";
         }
-        $link="'patient.php?id=".$row['id']."'";
+        $link="'home/patient/".$row['id']."'";
     echo'                                       <tr onclick="window.location='.$link.';">
                                                 <td>'.$row['date'].'</td>
                                                 <td>'.$row['id-patient'].'</td>
                                                 <td>'.$row['name'].'</td>
                                                 <td class="text-right">'.$row['gender'].'</td>
                                                 <td class="text-right">'.$row['birthday'].'</td>
-                                                <td class="text-right">'.$row['phonenumber'].'</td>
+                                                <td class="text-right">'.$row['phone'].'</td>
                                                 </tr>
             ';
                                              }
@@ -494,28 +483,28 @@
     }
     </script>
     <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-4.1/bootstrap.min.js"></script>
     <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/slick/slick.min.js">
     </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/wow/wow.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/animsition/animsition.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/counter-up/jquery.counterup.min.js">
     </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/vendor/select2/select2.min.js">
     </script>
 
     <!-- Main JS-->
-    <script src="js/main.js"></script>
+    <script src="/Git-lcc/internship-project/lcc/dashboard/js/main.js"></script>
 
 </body>
 

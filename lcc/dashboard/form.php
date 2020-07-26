@@ -1,4 +1,4 @@
-    <?php
+     <?php
     require_once "../vendor/autoload.php";
     use \Firebase\JWT\JWT;
     session_start();

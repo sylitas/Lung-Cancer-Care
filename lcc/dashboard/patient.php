@@ -77,34 +77,7 @@
         if($birthday == null){$birthday = "None";}
         if($address == null){$address = "None";}
     // --------------------------------end---------------------------------
-    // --------------------------------upload zipfile---------------------------------  
-        if(isset($_POST['up'])){
-            if(file_exists($_FILES['upZip']['tmp_name']) || is_uploaded_file($_FILES['upZip']['tmp_name'])){
-                $uploadOk = 1;
-                $tail = explode('.', $_FILES['upZip']['name']);
-                $tail = strtolower($tail[(count($tail) - 1)]);
-                if($tail != "zip") {
-                  $uploadOk = 0;
-                  ?>
-                  <script type="text/javascript">
-                      alert("Only .Zip file is allowed ! Please zip file to format .zip");
-                  </script>
-                  <?php
-                }
-                if ($uploadOk != 0) {
-                    $destination = "ctfiles/".$_FILES['upZip']['name'];
-                    move_uploaded_file($_FILES["upZip"]["tmp_name"], $destination);
-                    date_default_timezone_set('Asia/Ho_Chi_Minh');
-                    $datetime = date("Y-m-d H:i:s");
-                    $INSERT = "INSERT INTO `patientfile` (`patient_id`,`date`,`path`) VALUES (?,?,?)";
-                    $stmt = $connection->prepare($INSERT);
-                    $stmt->bind_param("sss",$checkpatient,$datetime,$destination);
-                    $stmt->execute();
-                }
-            }
-        }
-    // --------------------------------end upload---------------------------------  
-
+        include("uploadZipfile.php");
 ?>
 
 <!DOCTYPE html>
@@ -262,7 +235,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Fullname</th>
-                                                <th>Gender</th>
+                                                <th class="text-center">Gender</th>
                                                 <th class="text-right">Date Of Birth</th>
                                                 <th class="text-right">Phone number</th>
                                                 <th class="text-right">Address</th>
@@ -272,7 +245,7 @@
                                             <tr>
                                                 <td><?php echo $id; ?></td>
                                                 <td><?php echo $name; ?></td>
-                                                <td><?php echo $gender; ?></td>
+                                                <td class="text-center"><?php echo $gender; ?></td>
                                                 <td class="text-right"><?php echo $birthday; ?></td>
                                                 <td class="text-right"><?php echo $phone; ?></td>
                                                 <td class="text-right"><?php echo $address; ?></td>
@@ -287,7 +260,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="header-wrap" style="padding-bottom: 13px;">
-                                <h3 class="title-3 m-b-30">CT Files</h3>
+                                <h3 class="title-3 m-b-30">CT Files Management</h3>
                                 <div>
                                     <i class="fa fa-search"></i>
                                     <input class="au-input" type="text" name="" id="myInput" onkeyup="myFunction()" placeholder=" Search filename" style="width: 400px !important;" />
@@ -311,7 +284,7 @@
 $ctfilepath = "SELECT * FROM patientfile WHERE patient_id = '$checkpatient'";
 $querydata = mysqli_query($connection,$ctfilepath);
 while($row = mysqli_fetch_array($querydata)){
-    $link="'../../../../../../../lungcancer/home/patient/presenter".$checkpatient."/".$row['id']."'";
+    $link="'../../../../../../../lungcancer/home/patient/".$checkpatient."/presenter/".$row['id']."'";
 ?>
                                         <tr>
                                             <td>
@@ -376,104 +349,30 @@ while($row = mysqli_fetch_array($querydata)){
                             </div>
                         </div>
                     </div>
-                    <!-- <div id="myModal2" class="modal">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <span class="close">&times;</span>
-                                    </div>
-                                    <div class="card">
-                                            <div class="card-body">
-                                            <div class="card-title">
-                                                <h3 class="text-center title-2">Patient Details</h3>
-                                            </div>
-                                            <hr>
-                                            <form id="myForm" action="" method="POST" novalidate="novalidate">
-                                                <div class="form-group">
-                                                    <label for="cc-payment" class="control-label mb-1">ID patient</label>
-                                                    <input id="cc-pament" name="idpatient" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
-                                                </div>
-                                                <div class="form-group has-success">
-                                                    <label for="cc-name" class="control-label mb-1">Full Name</label>
-                                                    <input id="cc-name" name="namepatient" type="text" class="form-control cc-name valid" data-val="true"
-                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
-                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                                                </div>
-                                                <div class="form-group has-success">
-                                                    <label class="control-label mb-1">Phone Number</label>
-                                                    <input name="phonepatient" type="text" class="form-control cc-name valid" data-val="true"
-                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
-                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                                                </div>
-                                                <div class="form-group has-success">
-                                                    <label class="control-label mb-1">Address</label>
-                                                    <input name="addresspatient" type="text" class="form-control cc-name valid" data-val="true"
-                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
-                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col col-md-3">
-                                                        <label for="select" class=" form-control-label">Gender</label>
-                                                    </div>
-                                                    <div class="col-12 col-md-9">
-                                                        <select name="genderpatient" id="select" class="form-control" required>
-                                                            <option value="null" selected>None</option>
-                                                            <option value="m">Male</option>
-                                                            <option value="f">Female</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col col-md-3">
-                                                        <label for="select" class=" form-control-label">Birthday</label>
-                                                    </div>
-                                                    <div class="col-12 col-md-9">
-                                                        <input id="" name="birthdaypatient" type="date" class="form-control cc-name valid" data-val="true"
-                                                        autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" required>
-                                                    </div>
-                                                </div>
-                                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block" name="uploadfile">
-                                                    <span id="payment-button-amount">Submit</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                    <!--end design xD-->
                 </div>
             </div>
         </div>
     </div>
- 
     <!-- Modal-Box-1 -->
     <script>
     // Get the modal
     var modal = document.getElementById("myModal");
-    var modal2 = document.getElementById("myModal2");
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
-    var btn2 = document.getElementById("myBtn2");
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     // When the user clicks the button, open the modal 
     btn.onclick = function() {
       modal.style.display = "block";
     }
-    btn2.onclick = function() {
-      modal2.style.display = "block";
-    }
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
         modal.style.display = "none";
-        modal2.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
-      }
-      if (event.target == modal2) {
-        modal2.style.display = "none";
       }
     }
     </script>

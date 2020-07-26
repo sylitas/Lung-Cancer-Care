@@ -52,7 +52,7 @@
 					//encode
 					$jwt = JWT::encode($payload,$key);
 					//store to cookie
-					setcookie("lcc",$jwt,time()+3600,"/",null,null,true);
+					setcookie("lcc",$jwt,time()+4800,"/",null,null,true);
 					header('Location: /lungcancer/home');
 				}else{
 					$message = "Invalid Username and Password";
@@ -93,7 +93,7 @@
 </head>
 <body>
 	<div class="limiter">
-		<div class="container-login100" style="background-image: url('/Git-lcc/internship-project/lcc/images/bg-01.jpg');">
+		<div class="container-login100" style="background-image: url('/Git-lcc/internship-project/lcc/images/background.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form class="login100-form validate-form flex-sb flex-w" action="" method="POST">
 					<span class="login100-form-title p-b-53">
